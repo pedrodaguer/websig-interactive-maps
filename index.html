@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interativo - Concelho de Faro</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header>
+        <h1>Mapa Interativo - Concelho de Faro</h1>
+        <p>Escolas e Postos de Combustivel</p>
+    </header>
+
+    <!-- Painel Lateral -->
+    <aside class="sidebar">
+        <!-- Controle de Camadas -->
+        <div class="panel">
+            <h3>Camadas Base</h3>
+            <div class="layer-controls">
+                <label>
+                    <input type="radio" name="baseLayer" value="osm" checked>
+                    OpenStreetMap
+                </label>
+                <label>
+                    <input type="radio" name="baseLayer" value="satellite">
+                    Satelite
+                </label>
+            </div>
+        </div>
+
+        <!-- Visibilidade das Camadas -->
+        <div class="panel">
+            <h3>Camadas de Dados</h3>
+            <label>
+                <input type="checkbox" id="toggleEscolas" checked>
+                Escolas
+            </label>
+            <label>
+                <input type="checkbox" id="togglePostos" checked>
+                Postos de Combustivel
+            </label>
+            <label>
+                <input type="checkbox" id="toggleCustom" checked>
+                Pontos Personalizados
+            </label>
+        </div>
+
+        <!-- Filtros de Escolas -->
+        <div class="panel">
+            <h3>Filtros - Escolas</h3>
+            <label>
+                <input type="checkbox" class="filter-escola" value="ciclo1" checked>
+                1º Ciclo
+            </label>
+            <label>
+                <input type="checkbox" class="filter-escola" value="ciclo2" checked>
+                2º Ciclo
+            </label>
+            <label>
+                <input type="checkbox" class="filter-escola" value="ciclo3" checked>
+                3º Ciclo
+            </label>
+            <label>
+                <input type="checkbox" class="filter-escola" value="secundario" checked>
+                Secundario
+            </label>
+            <label>
+                <input type="checkbox" class="filter-escola" value="sede" checked>
+                Sede de Agrupamento
+            </label>
+        </div>
+
+        <!-- Filtros de Postos -->
+        <div class="panel">
+            <h3>Filtros - Postos</h3>
+            <div id="bandeira-filters"></div>
+        </div>
+
+        <!-- Botao Reset -->
+        <div class="panel">
+            <button id="resetFiltersBtn" class="tool-btn" style="background-color: #f59e0b;">
+                Resetar Filtros
+            </button>
+        </div>
+
+        <!-- Ferramentas -->
+        <div class="panel">
+            <h3>Ferramentas</h3>
+            <button id="measureBtn" class="tool-btn">Medir Distancia</button>
+            <button id="addPointBtn" class="tool-btn">Adicionar Ponto</button>
+            <div id="measureResult" class="measure-result"></div>
+        </div>
+    </aside>
+
+    <!-- Mapa -->
+    <main>
+        <div id="map"></div>
+    </main>
+</div>
+
+<!-- Modal para Adicionar Ponto -->
+<div id="addPointModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Adicionar Ponto de Interesse</h2>
+        <form id="pointForm">
+            <label for="pointName">Nome:</label>
+            <input type="text" id="pointName" required>
+
+            <label for="pointCategory">Categoria:</label>
+            <select id="pointCategory" required>
+                <option value="comercio">Comercio Tradicional</option>
+                <option value="patrimonio">Patrimonio</option>
+                <option value="arvore">Arvore</option>
+                <option value="outro">Outro</option>
+            </select>
+
+            <label for="pointDescription">Descricao:</label>
+            <textarea id="pointDescription" rows="3"></textarea>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Scripts da aplicacao -->
+<script src="config.js"></script>
+<script src="geoserver.js"></script>
+<script src="filters.js"></script>
+<script src="measure.js"></script>
+<script src="digitalization.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
