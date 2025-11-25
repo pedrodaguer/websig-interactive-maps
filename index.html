@@ -6,7 +6,7 @@
     <title>Mapa Interativo - Concelho de Faro</title>
 
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="styles.css">
@@ -16,7 +16,7 @@
     <!-- Header -->
     <header>
         <h1>Mapa Interativo - Concelho de Faro</h1>
-        <p>Escolas e Postos de Combustivel</p>
+        <p>Escolas e Postos de Combustível</p>
     </header>
 
     <!-- Painel Lateral -->
@@ -26,12 +26,10 @@
             <h3>Camadas Base</h3>
             <div class="layer-controls">
                 <label>
-                    <input type="radio" name="baseLayer" value="osm" checked>
-                    OpenStreetMap
+                    <input type="radio" name="baseLayer" value="osm" checked> OpenStreetMap
                 </label>
                 <label>
-                    <input type="radio" name="baseLayer" value="satellite">
-                    Satelite
+                    <input type="radio" name="baseLayer" value="satellite"> Satélite
                 </label>
             </div>
         </div>
@@ -40,16 +38,16 @@
         <div class="panel">
             <h3>Camadas de Dados</h3>
             <label>
-                <input type="checkbox" id="toggleEscolas" checked>
-                Escolas
+                <input type="checkbox" id="toggleEscolas" checked> Escolas
             </label>
             <label>
-                <input type="checkbox" id="togglePostos" checked>
-                Postos de Combustivel
+                <input type="checkbox" id="togglePostos" checked> Postos de Combustível
             </label>
             <label>
-                <input type="checkbox" id="toggleCustom" checked>
-                Pontos Personalizados
+                <input type="checkbox" id="toggleCustom" checked> Pontos Personalizados
+            </label>
+            <label>
+                <input type="checkbox" id="toggleArvores" checked> Árvores
             </label>
         </div>
 
@@ -57,24 +55,19 @@
         <div class="panel">
             <h3>Filtros - Escolas</h3>
             <label>
-                <input type="checkbox" class="filter-escola" value="ciclo1" checked>
-                1º Ciclo
+                <input type="checkbox" class="filter-escola" value="ciclo1" checked> 1º Ciclo
             </label>
             <label>
-                <input type="checkbox" class="filter-escola" value="ciclo2" checked>
-                2º Ciclo
+                <input type="checkbox" class="filter-escola" value="ciclo2" checked> 2º Ciclo
             </label>
             <label>
-                <input type="checkbox" class="filter-escola" value="ciclo3" checked>
-                3º Ciclo
+                <input type="checkbox" class="filter-escola" value="ciclo3" checked> 3º Ciclo
             </label>
             <label>
-                <input type="checkbox" class="filter-escola" value="secundario" checked>
-                Secundario
+                <input type="checkbox" class="filter-escola" value="secundario" checked> Secundário
             </label>
             <label>
-                <input type="checkbox" class="filter-escola" value="sede" checked>
-                Sede de Agrupamento
+                <input type="checkbox" class="filter-escola" value="sede" checked> Sede de Agrupamento
             </label>
         </div>
 
@@ -84,20 +77,22 @@
             <div id="bandeira-filters"></div>
         </div>
 
-        <!-- Botao Reset -->
+        <!-- Botão Reset -->
         <div class="panel">
-            <button id="resetFiltersBtn" class="tool-btn" style="background-color: #f59e0b;">
-                Resetar Filtros
-            </button>
+            <button id="resetFiltersBtn" class="tool-btn" style="background-color: #f59e0b;">🔄 Resetar Filtros</button>
         </div>
 
         <!-- Ferramentas -->
         <div class="panel">
             <h3>Ferramentas</h3>
-            <button id="measureBtn" class="tool-btn">Medir Distancia</button>
-            <button id="addPointBtn" class="tool-btn">Adicionar Ponto</button>
-            <div id="measureResult" class="measure-result"></div>
+            <button id="measureBtn" class="tool-btn">📏 Medir Distância</button>
+            <button id="addPointBtn" class="tool-btn">📍 Adicionar Ponto</button>
+            <button id="addArvoreBtn" class="tool-btn">🌳 Adicionar Árvore</button>
+            <button id="exportArvoresBtn" class="tool-btn">💾 Exportar Árvores</button>
+            <button id="importArvoresBtn" class="tool-btn">📂 Importar Árvores</button>
+            <input type="file" id="importArvoresFile" accept=".json,.geojson" style="display: none;">
         </div>
+        <div id="measureResult" class="measure-result"></div>
     </aside>
 
     <!-- Mapa -->
@@ -112,18 +107,18 @@
         <span class="close">&times;</span>
         <h2>Adicionar Ponto de Interesse</h2>
         <form id="pointForm">
-            <label for="pointName">Nome:</label>
+            <label for="pointName">Nome</label>
             <input type="text" id="pointName" required>
 
-            <label for="pointCategory">Categoria:</label>
+            <label for="pointCategory">Categoria</label>
             <select id="pointCategory" required>
-                <option value="comercio">Comercio Tradicional</option>
-                <option value="patrimonio">Patrimonio</option>
-                <option value="arvore">Arvore</option>
+                <option value="comercio">Comércio Tradicional</option>
+                <option value="patrimonio">Património</option>
+                <option value="arvore">Árvore</option>
                 <option value="outro">Outro</option>
             </select>
 
-            <label for="pointDescription">Descricao:</label>
+            <label for="pointDescription">Descrição</label>
             <textarea id="pointDescription" rows="3"></textarea>
 
             <div class="form-buttons">
@@ -134,15 +129,60 @@
     </div>
 </div>
 
+<!-- Modal para Adicionar Árvore -->
+<div id="arvoreModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Adicionar Árvore ao Inventário</h2>
+        <form id="arvoreForm">
+            <label for="arvoreEspecie">Espécie</label>
+            <input type="text" id="arvoreEspecie" required>
+
+            <label for="arvoreNomeComum">Nome Comum</label>
+            <input type="text" id="arvoreNomeComum">
+
+            <label for="arvoreAltura">Altura (m)</label>
+            <input type="number" id="arvoreAltura" step="0.1" min="0">
+
+            <label for="arvoreDiametro">Diâmetro (cm)</label>
+            <input type="number" id="arvoreDiametro" step="0.1" min="0">
+
+            <label for="arvoreEstado">Estado</label>
+            <select id="arvoreEstado" required>
+                <option value="excelente">Excelente</option>
+                <option value="bom">Bom</option>
+                <option value="regular">Regular</option>
+                <option value="ruim">Ruim</option>
+                <option value="critico">Crítico</option>
+            </select>
+
+            <label for="arvoreLocalizacao">Localização</label>
+            <input type="text" id="arvoreLocalizacao">
+
+            <label for="arvoreObservacoes">Observações</label>
+            <textarea id="arvoreObservacoes" rows="3"></textarea>
+
+            <label for="arvoreCadastradoPor">Cadastrado Por</label>
+            <input type="text" id="arvoreCadastradoPor">
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" class="btn-secondary" id="cancelArvoreBtn">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<!-- Scripts da aplicacao -->
+<!-- Scripts da aplicação -->
 <script src="config.js"></script>
 <script src="geoserver.js"></script>
 <script src="filters.js"></script>
 <script src="measure.js"></script>
 <script src="digitalization.js"></script>
+<script src="inventario-arboreo.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
